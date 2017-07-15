@@ -52,7 +52,8 @@ module.exports = function(lib) {
                 balance,
                 order,
                 orderbalance,
-                id: acc[1].account.id
+                id: acc[1].account.id,
+                limit_orders: acc[1].limit_orders
             };
         });
         return users_ans;
