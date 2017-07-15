@@ -1,5 +1,5 @@
 {
-  "name": "webpack",
+  "name": "openledger_nodejs_api",
   "version": "1.0.0",
   "description": "",
   "main": "server_api.js",
