@@ -193,13 +193,16 @@ module.exports = function(lib) {
 
             let ask_or_bids = '';
             let order_price = 0;
+            let convertedForSale = 0;
 
             if (e.sell_price.base.asset_id === obj.base && e.sell_price.quote.asset_id === obj.quote) {
                 order_price = quote_price / base_price;
                 ask_or_bids = 'asks';
+                convertedForSale = e.for_sale / Math.pow(10, base.precision);
             } else if (e.sell_price.base.asset_id === obj.quote && e.sell_price.quote.asset_id === obj.base) {
                 order_price = base_price / quote_price;
                 ask_or_bids = 'bids';
+                convertedForSale = e.for_sale / Math.pow(10, base.precision) / order_price;
             }
 
             if (ans_obj[ask_or_bids][order_price]) {
@@ -207,6 +210,7 @@ module.exports = function(lib) {
                 ans_obj[ask_or_bids][order_price].base.converted += base_price;
                 ans_obj[ask_or_bids][order_price].quote.amount += e.sell_price.quote.amount;
                 ans_obj[ask_or_bids][order_price].quote.converted += quote_price;
+                ans_obj[ask_or_bids][order_price].convertedForSale += convertedForSale;
             } else {
                 ans_obj[ask_or_bids][order_price] = {
                     base: e.sell_price.base,
@@ -215,6 +219,7 @@ module.exports = function(lib) {
 
                 ans_obj[ask_or_bids][order_price].base.converted = base_price;
                 ans_obj[ask_or_bids][order_price].quote.converted = quote_price;
+                ans_obj[ask_or_bids][order_price].convertedForSale = convertedForSale;
             }
         });
         return ans_obj;
